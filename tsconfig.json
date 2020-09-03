@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "module": "es2015",
+        "target": "es6",
+        "noImplicitAny": false,
+        "sourceMap": false,
+        "outDir": "./public/js",
+        "rootDir": "./src",
+        "watch": true,
+        "allowJs": true,
+        "removeComments": true,
+        "allowSyntheticDefaultImports": true
+    },
+    "include": ["src"]
+}

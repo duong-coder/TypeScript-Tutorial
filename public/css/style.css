@@ -1,0 +1,110 @@
+body,
+html {
+    margin: 0px;
+    padding: 0px;
+}
+
+.root {
+    margin-top: 100px;
+    padding: 20px;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    background-color: rgb(255, 255, 255);
+}
+
+.root .title {
+    display: block;
+    overflow: hidden;
+    margin-bottom: 10px;
+    font-size: x-large;
+    height: auto;
+}
+
+.title>p {
+    float: left;
+}
+
+.title>div {
+    margin-top: 20px;
+    float: right;
+}
+
+.title>div button {
+    background-color: #4CAF50;
+    border: none;
+    height: 30px;
+    padding: 5px;
+    align-content: center;
+}
+
+.title>div button i {
+    font-size: 16px;
+}
+
+.title>div button:hover {
+    color: white;
+}
+
+.find {
+    display: block;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.find>div {
+    float: right;
+    position: relative;
+}
+
+.find>div>input[type="text"] {
+    outline: none;
+    border: 1px solid gray;
+    border-radius: 0px;
+    margin: 0px;
+    height: 25px;
+}
+
+.find>div>input[type="submit"] {
+    margin: 0px;
+    height: 30px;
+    border: none;
+    border-radius: 0px;
+    outline: none;
+    left: -5px;
+    background-color: #4CAF50;
+    position: relative;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid rgb(84, 84, 228);
+    background-color: #7fdbda;
+}
+
+.content>table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.content>table th,
+td {
+    height: 35px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.content>table th {
+    font-size: medium;
+    font-weight: normal;
+    /* text-align: center; */
+    color: white;
+    background-color: #4CAF50;
+}
+
+.content>table tr:nth-child(2n) {
+    background-color: #f2f2f2;
+}
+
+.content>table tr:hover {
+    background-color: #ddd;
+}
