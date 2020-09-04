@@ -17,13 +17,13 @@
             <div>
                 <button id="add">Thêm sinh viên</button>
                 <button><i class="fa fa-edit"></i></button>
-                <button><i class="fa fa-remove"></i></button>
+                <button id="delete"><i class="fa fa-remove"></i></button>
             </div>
         </div>
         <div class="find">
             <div>
-                <input type="text">
-                <input type="submit" value="Tìm kiếm">
+                <input id="text-find-student" type="text">
+                <input id="find-student" type="submit" value="Tìm kiếm">
             </div>
         </div>
         <div class="message">
@@ -45,7 +45,7 @@
                     </tr>
                 </thead>
                 <tbody id="data-students">
-                    <tr>
+                    <!-- <tr>
                         <td>1</td>
                         <td><input type="checkbox" name="" id=""></td>
                         <td>Duong</td>
@@ -55,17 +55,22 @@
                         <td>duongakvip1@gmail.com</td>
                         <td>02/09/2020</td>
                         <td>04010</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td><input type="checkbox" name="" id=""></td>
-                        <td>Duong</td>
-                        <td>duongabc</td>
-                        <td>Kich hoat</td>
-                        <td>binh thuong</td>
-                        <td>duongakvip1@gmail.com</td>
-                        <td>02/09/2020</td>
-                        <td>04010</td>
+                    </tr> -->
+                    <tr id="form-add-student" class="form-add-student-hiden">
+                        <td></td>
+                        <td></td>
+                        <td><input type="text" name="name"></td>
+                        <td><input type="text" name="username"></td>
+                        <td><input type="checkbox" name="status"></td>
+                        <td>
+                            <input type="radio" name="role" id="admin">
+                            <label for="admin">Admin</label>
+                            <input type="radio" name="role" id="user">
+                            <label for="user">User</label>
+                        </td>
+                        <td><input type="email" name="email"></td>
+                        <td><input type="date" name="date"></td>
+                        <td><input type="text" name="idStudent"></td>
                     </tr>
                 </tbody>
             </table>

@@ -108,3 +108,11 @@ td {
 .content>table tr:hover {
     background-color: #ddd;
 }
+
+.form-add-student-hiden {
+    display: none;
+}
+
+.form-add-student-show {
+    display: contents;
+}
