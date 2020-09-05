@@ -13,7 +13,6 @@ export class Render {
     }
     renderDataInTable(listStudent) {
         let tbody = document.getElementById("data-students");
-        this.removeAllRowInTable();
         if (listStudent != null) {
             listStudent.forEach((s, index) => {
                 let tr = document.createElement("tr");
@@ -21,7 +20,7 @@ export class Render {
                 tdIndex.textContent = "" + (index + 1);
                 tr.appendChild(tdIndex);
                 let tdCheckBox = document.createElement("td");
-                tdCheckBox.innerHTML = `<input type='checkbox' name='' id='${s.id}'>`;
+                tdCheckBox.innerHTML = `<input type='checkbox' name='edit-and-delete' id='${s.id}'>`;
                 tr.appendChild(tdCheckBox);
                 let tdList = [];
                 for (let i = 1; i <= 7; i++) {
@@ -85,14 +84,31 @@ export class Render {
             }
         }
     }
-    showForm(buttonAdd, add, showForm) {
+    deleteStudent() {
+        let allInputDelete = document.getElementsByName("edit-and-delete");
+        let listIdStudent = [];
+        for (let i = 0; i < allInputDelete.length; i++) {
+            let inputHTML = allInputDelete[i];
+            if (inputHTML.checked) {
+                listIdStudent.push(inputHTML.getAttribute("id"));
+            }
+        }
+        listIdStudent.forEach(id => {
+            this.studentService.deleteStudent(id);
+        });
+    }
+    showForm(buttonAdd, buttonDelete, add, showForm, deleteSt, hidenForm) {
         let formAddStudent = document.getElementById("form-add-student");
         formAddStudent.setAttribute("class", "form-add-student-show");
         buttonAdd.removeEventListener("click", showForm);
         buttonAdd.addEventListener("click", add);
+        buttonDelete.removeEventListener("click", deleteSt);
+        buttonDelete.addEventListener("click", hidenForm);
     }
-    hidenForm() {
+    hidenForm(buttonDelete, deleteSt, hidenForm) {
         let formAddStudent = document.getElementById("form-add-student");
         formAddStudent.setAttribute("class", "form-add-student-hiden");
+        buttonDelete.removeEventListener("click", hidenForm);
+        buttonDelete.addEventListener("click", deleteSt);
     }
 }

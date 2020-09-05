@@ -1,14 +1,13 @@
 export class StudentDAOImpl {
-    constructor() {
-        this.listStudent = JSON.parse(localStorage.getItem("listStudent"));
-    }
     insertStudent(s) {
-        this.listStudent.push(s);
-        this.saveInLocalStorage(this.listStudent);
+        let listStudent = JSON.parse(localStorage.getItem("listStudent"));
+        listStudent.push(s);
+        this.saveInLocalStorage(listStudent);
     }
     ;
     updateStudent(sNew) {
-        this.listStudent.forEach(sOld => {
+        let listStudent = JSON.parse(localStorage.getItem("listStudent"));
+        listStudent.forEach(sOld => {
             if (sOld.id === sNew.id) {
                 sOld.name = sNew.name;
                 sOld.username = sNew.username;
@@ -18,22 +17,24 @@ export class StudentDAOImpl {
                 sOld.dateActive = sNew.dateActive;
             }
         });
-        this.saveInLocalStorage(this.listStudent);
+        this.saveInLocalStorage(listStudent);
     }
     ;
     deleteStudent(id) {
-        let indexID = this.listStudent.findIndex(s => {
+        let listStudent = JSON.parse(localStorage.getItem("listStudent"));
+        let indexID = listStudent.findIndex(s => {
             return s.id === id;
         });
-        this.listStudent.splice(indexID, 1);
-        this.saveInLocalStorage(this.listStudent);
+        listStudent.splice(indexID, 1);
+        this.saveInLocalStorage(listStudent);
     }
     ;
     getAllStudent() {
-        return this.listStudent;
+        let listStudent = JSON.parse(localStorage.getItem("listStudent"));
+        return listStudent;
     }
     ;
     saveInLocalStorage(listStudent) {
-        localStorage.setItem("listStudent", JSON.stringify(this.listStudent));
+        localStorage.setItem("listStudent", JSON.stringify(listStudent));
     }
 }

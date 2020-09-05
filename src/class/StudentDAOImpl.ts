@@ -2,15 +2,17 @@ import {StudentDAO} from "../interface/StudentDAO.js";
 import {Student} from "./Student.js";
 
 export class StudentDAOImpl implements StudentDAO{
-    listStudent: Array<Student> = JSON.parse(localStorage.getItem("listStudent"));
+    
 
     insertStudent(s: Student): void{
-        this.listStudent.push(s);
+        let listStudent: Array<Student> = JSON.parse(localStorage.getItem("listStudent"));
+        listStudent.push(s);
 
-        this.saveInLocalStorage(this.listStudent);
+        this.saveInLocalStorage(listStudent);
     };
     updateStudent(sNew: Student): void{
-        this.listStudent.forEach(sOld => {
+        let listStudent: Array<Student> = JSON.parse(localStorage.getItem("listStudent"));
+        listStudent.forEach(sOld => {
             if(sOld.id === sNew.id){
                 sOld.name = sNew.name;
                 sOld.username = sNew.username;
@@ -21,22 +23,24 @@ export class StudentDAOImpl implements StudentDAO{
             }
         });
         
-        this.saveInLocalStorage(this.listStudent);
+        this.saveInLocalStorage(listStudent);
     };
     deleteStudent(id: string): void{
-        let indexID = this.listStudent.findIndex(s => {
+        let listStudent: Array<Student> = JSON.parse(localStorage.getItem("listStudent"));
+        let indexID = listStudent.findIndex(s => {
             return s.id === id;
         });
-        this.listStudent.splice(indexID, 1);
+        listStudent.splice(indexID, 1);
         
-        this.saveInLocalStorage(this.listStudent);
+        this.saveInLocalStorage(listStudent);
     };
     getAllStudent(): Array<Student>{
-        
-        return this.listStudent;
+        let listStudent: Array<Student> = JSON.parse(localStorage.getItem("listStudent"));
+
+        return listStudent;
     };
 
     saveInLocalStorage(listStudent: Array<Student>){
-        localStorage.setItem("listStudent", JSON.stringify(this.listStudent));
+        localStorage.setItem("listStudent", JSON.stringify(listStudent));
     }
 }

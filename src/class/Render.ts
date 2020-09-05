@@ -5,17 +5,16 @@ export class Render {
 
     studentService: StudentServiceImpl = new StudentServiceImpl();
 
-    removeAllRowInTable(){
+    removeAllRowInTable() {
         let tbody: Element = document.getElementById("data-students");
         let arrRow = tbody.getElementsByTagName("tr");
-        for(let i = 1; i < arrRow.length; ){
+        for (let i = 1; i < arrRow.length;) {
             arrRow[i].remove();
         }
     }
 
     renderDataInTable(listStudent: Array<Student>): void {
         let tbody: Element = document.getElementById("data-students");
-        this.removeAllRowInTable();
         if (listStudent != null) {
             listStudent.forEach((s, index) => {
                 let tr = document.createElement("tr");
@@ -24,7 +23,7 @@ export class Render {
                 tr.appendChild(tdIndex);
 
                 let tdCheckBox: Element = document.createElement("td");
-                tdCheckBox.innerHTML = `<input type='checkbox' name='' id='${s.id}'>`;
+                tdCheckBox.innerHTML = `<input type='checkbox' name='edit-and-delete' id='${s.id}'>`;
                 tr.appendChild(tdCheckBox);
 
                 let tdList: Element[] = [];
@@ -90,14 +89,38 @@ export class Render {
             }
         }
     }
-    showForm(buttonAdd: Element, add: any, showForm: any): void {
+    deleteStudent() {
+        let allInputDelete: NodeListOf<HTMLElement> = document.getElementsByName("edit-and-delete");
+        let listIdStudent: string[] = [];
+        for(let i = 0; i<allInputDelete.length; i++){
+            let inputHTML: HTMLInputElement = (allInputDelete[i] as HTMLInputElement);
+            if (inputHTML.checked) {
+                listIdStudent.push(inputHTML.getAttribute("id"));
+            }
+        }
+        // allInputDelete.forEach(input => {
+        //     let inputHTML: HTMLInputElement = (input as HTMLInputElement);
+        //     if (inputHTML.checked) {
+        //         listIdStudent.push(inputHTML.getAttribute("id"));
+        //     }
+        // });
+
+        listIdStudent.forEach(id =>{
+            this.studentService.deleteStudent(id);
+        })
+    }
+    showForm(buttonAdd: Element, buttonDelete: Element, add: any, showForm: any, deleteSt: any, hidenForm: any): void {
         let formAddStudent: Element = document.getElementById("form-add-student");
         formAddStudent.setAttribute("class", "form-add-student-show");
         buttonAdd.removeEventListener("click", showForm);
         buttonAdd.addEventListener("click", add);
+        buttonDelete.removeEventListener("click", deleteSt);
+        buttonDelete.addEventListener("click", hidenForm);
     }
-    hidenForm() {
+    hidenForm(buttonDelete: Element, deleteSt: any, hidenForm: any) {
         let formAddStudent: Element = document.getElementById("form-add-student");
         formAddStudent.setAttribute("class", "form-add-student-hiden");
+        buttonDelete.removeEventListener("click", hidenForm);
+        buttonDelete.addEventListener("click", deleteSt);
     }
 }

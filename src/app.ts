@@ -9,6 +9,8 @@ let listStudent: Array<Student> = studentService.getAllStudent();
 
 // hien thi du lieu
 let refreshData = function(){
+    listStudent = studentService.getAllStudent();
+    render.removeAllRowInTable();
     render.renderDataInTable(listStudent);
 }
 
@@ -16,9 +18,10 @@ refreshData();
 
 let tbody: Element = document.getElementById("data-students");
 let buttonAdd: Element = document.getElementById("add");
+let buttonDelete: Element = document.getElementById("delete");
 
 let showFormHTML = function(){
-    render.showForm(buttonAdd, addStudentHTML, showFormHTML);
+    render.showForm(buttonAdd, buttonDelete, addStudentHTML, showFormHTML, deleteStudent, hidenFormHTML);
 }
 
 let addStudentHTML = function(){
@@ -28,11 +31,16 @@ let addStudentHTML = function(){
 
 buttonAdd.addEventListener("click", showFormHTML);
 
-let deleteFormHTML = function(){
-    render.hidenForm();
+let hidenFormHTML = function(){
+    render.hidenForm(buttonDelete, deleteStudent, hidenFormHTML);
 }
-let buttonDelete: Element = document.getElementById("delete");
-buttonDelete.addEventListener("click", deleteFormHTML);
+
+let deleteStudent = function(){
+    render.deleteStudent();
+    refreshData();
+}
+// buttonDelete.addEventListener("click", deleteFormHTML);
+buttonDelete.addEventListener("click", deleteStudent);
 
 let findStudentHTML = function(){
     render.findStudent();
