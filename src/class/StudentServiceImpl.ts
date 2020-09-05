@@ -14,6 +14,10 @@ export class StudentServiceImpl implements StudentService{
     deleteStudent(id: string): void{
         this.studentDAO.deleteStudent(id);
     };
+    getStudnetById(id: string): Student{
+        
+        return this.studentDAO.getStudnetById(id);
+    }
     getAllStudent(): Array<Student>{
         let listStudent: Array<Student> = this.studentDAO.getAllStudent();
         

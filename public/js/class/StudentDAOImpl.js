@@ -29,6 +29,13 @@ export class StudentDAOImpl {
         this.saveInLocalStorage(listStudent);
     }
     ;
+    getStudnetById(id) {
+        let listStudent = JSON.parse(localStorage.getItem("listStudent"));
+        let student = listStudent.find(s => {
+            return s.id === id;
+        });
+        return student;
+    }
     getAllStudent() {
         let listStudent = JSON.parse(localStorage.getItem("listStudent"));
         return listStudent;

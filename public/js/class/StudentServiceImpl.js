@@ -15,6 +15,9 @@ export class StudentServiceImpl {
         this.studentDAO.deleteStudent(id);
     }
     ;
+    getStudnetById(id) {
+        return this.studentDAO.getStudnetById(id);
+    }
     getAllStudent() {
         let listStudent = this.studentDAO.getAllStudent();
         return listStudent;

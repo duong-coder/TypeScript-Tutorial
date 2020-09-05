@@ -8,7 +8,7 @@ export class Render {
     removeAllRowInTable() {
         let tbody: Element = document.getElementById("data-students");
         let arrRow = tbody.getElementsByTagName("tr");
-        for (let i = 1; i < arrRow.length;) {
+        for (let i = 0; i < arrRow.length;) {
             arrRow[i].remove();
         }
     }
@@ -49,8 +49,38 @@ export class Render {
             listStudent = [];
         }
     }
-    addStudent(listStudent: Array<Student>, buttonAdd: Element, add: any, showForm: any): void {
-        let formAddStudent: Element = document.getElementById("form-add-student");
+    createForm(tbody: Element): void {
+        let tr = document.createElement("tr");
+        let tdList: Element[] = [];
+        for (let i = 1; i <= 9; i++) {
+            let td: Element = document.createElement("td");
+            tdList.push(td);
+        }
+        tr.appendChild(tdList[0]);
+        tr.appendChild(tdList[1]);
+
+        tdList[2].innerHTML = `<input type="text" name="name">`;
+        tr.appendChild(tdList[2]);
+        tdList[3].innerHTML = `<input type="text" name="username">`;
+        tr.appendChild(tdList[3]);
+        tdList[4].innerHTML = `<input type="checkbox" name="status">`;
+        tr.appendChild(tdList[4]);
+        tdList[5].innerHTML = `<input type="radio" name="role" id="admin">
+                        <label for="admin">Admin</label>
+                        <input type="radio" name="role" id="user">
+                        <label for="user">User</label>`;
+        tr.appendChild(tdList[5]);
+        tdList[6].innerHTML = `<input type="email" name="email">`;
+        tr.appendChild(tdList[6]);
+        tdList[7].innerHTML = `<input type="date" name="date">`;
+        tr.appendChild(tdList[7]);
+        tdList[8].innerHTML = `<input type="text" name="idStudent">`;
+        tr.appendChild(tdList[8]);
+
+        tbody.insertBefore(tr, tbody.firstChild);
+    }
+    addStudent(listStudent: Array<Student>): void {
+        // let formAddStudent: Element = document.getElementById("form-add-student");
         let name: string = (document.getElementsByName("name")[0] as HTMLInputElement).value;
         let username: string = (document.getElementsByName("username")[0] as HTMLInputElement).value;;
         let status: boolean = (document.getElementsByName("status")[0] as HTMLInputElement).checked;
@@ -60,18 +90,17 @@ export class Render {
         let id: string = (document.getElementsByName("idStudent")[0] as HTMLInputElement).value;
 
         let s: Student = new Student(id, name, username, status, role, email, new Date(date));
-        listStudent.push(s);
+        // listStudent.push(s);
         try {
             this.studentService.insertStudent(s);
-            buttonAdd.removeEventListener("click", add);
-            buttonAdd.addEventListener("click", showForm);
+
             alert("Luu thanh cong");
         } catch (error) {
             alert("Khong the luu");
         }
 
     }
-    findStudent() {
+    findStudent(): void {
         // input, filter, table, tr, td, i, txtValue;
         let inputFind: Element = document.getElementById("text-find-student");
         let filter = (inputFind as HTMLInputElement).value.toUpperCase();
@@ -89,38 +118,97 @@ export class Render {
             }
         }
     }
-    deleteStudent() {
+    getAllIdStudentSelect(): string[] {
         let allInputDelete: NodeListOf<HTMLElement> = document.getElementsByName("edit-and-delete");
         let listIdStudent: string[] = [];
-        for(let i = 0; i<allInputDelete.length; i++){
+        for (let i = 0; i < allInputDelete.length; i++) {
             let inputHTML: HTMLInputElement = (allInputDelete[i] as HTMLInputElement);
             if (inputHTML.checked) {
                 listIdStudent.push(inputHTML.getAttribute("id"));
             }
         }
-        // allInputDelete.forEach(input => {
-        //     let inputHTML: HTMLInputElement = (input as HTMLInputElement);
-        //     if (inputHTML.checked) {
-        //         listIdStudent.push(inputHTML.getAttribute("id"));
-        //     }
-        // });
 
-        listIdStudent.forEach(id =>{
-            this.studentService.deleteStudent(id);
-        })
+        return listIdStudent;
     }
-    showForm(buttonAdd: Element, buttonDelete: Element, add: any, showForm: any, deleteSt: any, hidenForm: any): void {
-        let formAddStudent: Element = document.getElementById("form-add-student");
-        formAddStudent.setAttribute("class", "form-add-student-show");
+    deleteStudent(): void {
+        let listIdStudent: string[] = this.getAllIdStudentSelect();
+        if (listIdStudent.length > 0) {
+            listIdStudent.forEach(id => {
+                this.studentService.deleteStudent(id);
+            })
+        }
+    }
+    showStudentEdit(): void {
+        // let tbody: Element = document.getElementById("data-students");
+        // this.createForm(tbody);
+
+        let listIdStudent: string[] = this.getAllIdStudentSelect();
+        if (listIdStudent.length > 0) {
+            let student: Student = this.studentService.getStudnetById(listIdStudent[0]);
+
+            (document.getElementsByName("name")[0] as HTMLInputElement).value = student.name;
+            (document.getElementsByName("username")[0] as HTMLInputElement).value = student.username;
+            (document.getElementsByName("status")[0] as HTMLInputElement).checked = student.status;
+            if (student.role === "Admin") {
+                (document.getElementsByName("role")[0] as HTMLInputElement).checked = true;
+            } else {
+                (document.getElementsByName("role")[1] as HTMLInputElement).checked = true;
+            }
+            (document.getElementsByName("email")[0] as HTMLInputElement).value = student.email;
+            (document.getElementsByName("date")[0] as HTMLInputElement).valueAsDate = new Date(student.dateActive);
+
+            let inputId: HTMLElement = document.getElementsByName("idStudent")[0];
+            inputId.setAttribute("readonly", "true");
+            (inputId as HTMLInputElement).value = student.id;
+
+        }
+    }
+    editStudent(): void{
+        let name: string = (document.getElementsByName("name")[0] as HTMLInputElement).value;
+        let username: string = (document.getElementsByName("username")[0] as HTMLInputElement).value;;
+        let status: boolean = (document.getElementsByName("status")[0] as HTMLInputElement).checked;
+        let role: string = (document.getElementsByName("role")[0] as HTMLInputElement).checked ? "Admin" : "User";
+        let email: string = (document.getElementsByName("email")[0] as HTMLInputElement).value;
+        let date: string = (document.getElementsByName("date")[0] as HTMLInputElement).value;
+        let id: string = (document.getElementsByName("idStudent")[0] as HTMLInputElement).value;
+
+        let s: Student = new Student(id, name, username, status, role, email, new Date(date));
+        // listStudent.push(s);
+        try {
+            this.studentService.updateStudent(s);
+
+            alert("Cap nhat thanh cong");
+        } catch (error) {
+            alert("Khong the cap nhat");
+        }
+    }
+    showForm(buttonAdd: Element, add: any, showForm: any,
+        buttonDelete: Element, deleteSt: any, hidenForm: any,
+        btnEdit: Element, edit: any, showData: any): void {
+
+        let tbody: Element = document.getElementById("data-students");
+        // formAddStudent.setAttribute("class", "form-add-student-show");
+        this.createForm(tbody);
         buttonAdd.removeEventListener("click", showForm);
         buttonAdd.addEventListener("click", add);
         buttonDelete.removeEventListener("click", deleteSt);
         buttonDelete.addEventListener("click", hidenForm);
+        btnEdit.removeEventListener("click", showData);
+        btnEdit.addEventListener("click", edit);
     }
-    hidenForm(buttonDelete: Element, deleteSt: any, hidenForm: any) {
-        let formAddStudent: Element = document.getElementById("form-add-student");
-        formAddStudent.setAttribute("class", "form-add-student-hiden");
+    hidenForm(buttonAdd: Element, add: any, showForm: any,
+        buttonDelete: Element, deleteSt: any, hidenForm: any,
+        btnEdit: Element, edit: any, showData: any) {
+
+        let tbody: Element = document.getElementById("data-students");
+        // formAddStudent.setAttribute("class", "form-add-student-hiden");
+        tbody.removeChild(tbody.firstChild);
+        buttonAdd.removeEventListener("click", add);
+        buttonAdd.addEventListener("click", showForm);
         buttonDelete.removeEventListener("click", hidenForm);
         buttonDelete.addEventListener("click", deleteSt);
+        btnEdit.removeEventListener("click", edit);
+        btnEdit.addEventListener("click", showData);
     }
+    
 }

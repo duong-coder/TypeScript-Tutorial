@@ -34,6 +34,14 @@ export class StudentDAOImpl implements StudentDAO{
         
         this.saveInLocalStorage(listStudent);
     };
+    getStudnetById(id: string): Student{
+        let listStudent: Array<Student> = JSON.parse(localStorage.getItem("listStudent"));
+        let student: Student = listStudent.find(s => {
+            return s.id === id;
+        });
+
+        return student;
+    }
     getAllStudent(): Array<Student>{
         let listStudent: Array<Student> = JSON.parse(localStorage.getItem("listStudent"));
 
