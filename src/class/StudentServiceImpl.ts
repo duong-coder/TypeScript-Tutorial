@@ -1,18 +1,22 @@
-import {StudentService} from "../interface/StudentService";
-import {Student} from "./Student";
+import {Student} from "./Student.js";
+import {StudentService} from "../interface/StudentService.js";
+import { StudentDAOImpl } from "./StudentDAOImpl.js";
 
 export class StudentServiceImpl implements StudentService{
-    insertStudent(s: Student): void{
+    studentDAO: StudentDAOImpl = new StudentDAOImpl();
 
+    insertStudent(s: Student): void{
+        this.studentDAO.insertStudent(s);
     };
     updateStudent(s: Student): void{
-
+        this.studentDAO.updateStudent(s);
     };
     deleteStudent(id: string): void{
-
+        this.studentDAO.deleteStudent(id);
     };
     getAllStudent(): Array<Student>{
-        let a :Array<Student> = [];
-        return a;
+        let listStudent: Array<Student> = this.studentDAO.getAllStudent();
+        
+        return listStudent;
     };
 }
